@@ -7,7 +7,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setup(
     name='zoome',
-    version='0.0.1',
+    version='0.0.2',
     author='Gusarov Vladislav',
     author_email='tech@2dlab.ru',
     description='Python library for easy using Zoom-API-v2',
