@@ -1,12 +1,25 @@
+import json
 import jwt
+import os
+import requests
+import http.client
+from datetime import datetime, timedelta
 
 
 class ZoomClient:
-    def __init__(self, api_key: str, secret_api_key: str, expired_time: int = 5400):
+    def __init__(self, api_key: str, secret_api_key: str, expired_time: int = 1496091964000):
         self.api_key = api_key
         self.secret_api_key = secret_api_key
         self.expired_time = expired_time
         self.jwt = self.generate_jwt_token(self.expired_time)
+
+        self.conn = http.client.HTTPSConnection("api.zoom.us")
+        self.headers = {
+            "authorization": f"Bearer {self.jwt}",
+            "content-type": "application/json"
+        }
+
+        self.user = self.get_user()
 
     def generate_jwt_token(self, exp: int = 1496091964000):
         header = {"alg": "HS256", "typ": "JWT"}
@@ -14,9 +27,29 @@ class ZoomClient:
         signature = jwt.encode(payload, self.secret_api_key, algorithm="HS256", headers=header)
         return signature
 
-    def get_conferences_list(self):
-        pass
+    def request(self, method: str, query: str):
+        self.conn.request(method, query, headers=self.headers)
+        data = self.conn.getresponse().read()
+        return data.decode("utf-8")
+    
+    def get_user(self):
+        res = json.loads(self.request("GET", "/v2/users?status=active&page_size=1&page_number=1"))
+        return res["users"][0]
+
+    def get_conferences_list(self, offset_days: int = 31):
+        from_date = datetime.date(datetime.now()) - timedelta(days=offset_days)
+        res = json.loads(self.request("GET", f"/v2/users/{self.user['id']}/recordings?from={from_date}&page_size=100"))
+        return res["meetings"]
+
+    def download_file(self, full_path: str, url: str):
+        res = requests.get(f"{url}?access_token={self.jwt}", stream=True)
+        with open(full_path, "wb") as file:
+            for chunk in res.iter_content(chunk_size=1024*8):
+                if chunk:
+                    file.write(chunk)
+                    file.flush()
+                    os.fsync(file.fileno())
 
 
-if __name__ == '__main__':
-    print('use this code like import module')
+if __name__ == "__main__":
+    print("use this code like import module")
