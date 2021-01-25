@@ -39,6 +39,10 @@ class ZoomClient:
     
     def get_user(self):
         res = json.loads(self.request("GET", "/v2/users?status=active&page_size=1&page_number=1"))
+
+        if 'message' in res.keys():
+            raise Exception(res['message'])
+
         return res["users"][0]
 
     def get_conferences_list(self, offset_days: int = 31, page_size: int = 100):
