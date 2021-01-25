@@ -12,6 +12,7 @@ setup(
     author_email='tech@2dlab.ru',
     description='Python library for easy using Zoom-API-v2',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/2dlab/zoome',
     packages=find_packages(),
     classifiers=[
