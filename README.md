@@ -19,10 +19,10 @@ from zoome.api import ZoomClient
 zc = ZoomClient(jwt_token='<jwt_token>')
 ```
 
-#### get conferences list
+#### get meetings list
 
 ```python
-conferences = zc.get_conferences_list()
+meetings = zc.get_meetings_list()
 ```
 
 #### download file
@@ -35,16 +35,16 @@ zc.download_file(full_path='<full_path>', url='<url>')
 
 ### Utils
 
-#### get download urls from list of conferences
+#### get download urls from list of meetings
 
 ```python
 from zoome.api import ZoomClient
-from zoome.utils import get_conferences_download_urls
+from zoome.utils import get_meetings_download_urls
 
 zc = ZoomClient(jwt_token='<jwt_token>')
-conferences = zc.get_conferences_list()
+meetings = zc.get_meetings_list()
 
-links = get_conferences_download_urls(conferences)
+links = get_meetings_download_urls(meetings)
 ```
 ##### links:
 ```json
@@ -61,16 +61,16 @@ links = get_conferences_download_urls(conferences)
 ]
 ```
 
-#### get download links from one conference
+#### get download links from one meeting
 
 ```python
 from zoome.api import ZoomClient
 from zoome.utils import get_download_urls_from_meeting
 
 zc = ZoomClient(jwt_token='<jwt_token>')
-conferences = zc.get_conferences_list()
+meetings = zc.get_meetings_list()
 
-links = get_download_urls_from_meeting(conferences[0])
+links = get_download_urls_from_meeting(meetings[0])
 ```
 ##### links:
 ```json

@@ -3,3 +3,4 @@
 /dist
 /venv
 /zoome.egg-info
+/zoome/__pycache__

@@ -13,7 +13,7 @@ def get_download_urls_from_meeting(meeting):
     return [get_url_obj(record) for record in recording_files]
 
 
-def get_conferences_download_urls(meetings):
+def get_meetings_download_urls(meetings):
     return [get_download_urls_from_meeting(meeting) for meeting in meetings]
 
 

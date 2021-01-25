@@ -45,7 +45,7 @@ class ZoomClient:
 
         return res["users"][0]
 
-    def get_conferences_list(self, offset_days: int = 31, page_size: int = 100):
+    def get_meetings_list(self, offset_days: int = 31, page_size: int = 100):
         from_date = datetime.date(datetime.now()) - timedelta(days=offset_days)
         query = f"/v2/users/{self.user['id']}/recordings?from={from_date}&page_size={page_size}"
 
