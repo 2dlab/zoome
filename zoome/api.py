@@ -55,7 +55,7 @@ class ZoomClient:
     def download_file(self, full_path: str, url: str):
         res = requests.get(f"{url}?access_token={self.jwt}", stream=True)
         with open(full_path, "wb") as file:
-            for chunk in res.iter_content(chunk_size=1024*8):
+            for chunk in res.iter_content(chunk_size=1024*1024):
                 if chunk:
                     file.write(chunk)
                     file.flush()
